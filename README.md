@@ -7,7 +7,7 @@ Documentation and demos for developers using the RTCQuicTransport in Chrome's or
 
 #### Attributes:
 
-```
+```js
 readonly attribute RTCIceRole? role;
 readonly attribute RTCIceTransportState state;
 readonly attribute RTCIceGatheringState gatheringState;
@@ -15,7 +15,7 @@ readonly attribute RTCIceGatheringState gatheringState;
 
 #### Methods
 
-```
+```js
 sequence<RTCIceCandidate> getLocalCandidates();
 sequence<RTCIceCandidate> getRemoteCandidates();
 RTCIceCandidatePair? getSelectedCandidatePair();
@@ -26,7 +26,7 @@ void gather(RTCIceGatherOptions options);
 
 #### Events
 
-```
+```js
 attribute EventHandler onstatechange;
 attribute EventHandler ongatheringstatechange;
 attribute EventHandler onselectedcandidatepairchange;
@@ -36,14 +36,14 @@ attribute EventHandler onselectedcandidatepairchange;
 
 #### Attributes:
 
-```
+```js
 readonly attribute RTCIceTransport transport;
 readonly attribute RTCQuicTransportState state;
 ```
 
 #### Methods
 
-```
+```js
 Constructor(RTCIceTransport transport);
 ArrayBuffer getKey();
 void connect();
@@ -55,7 +55,7 @@ Promise<RTCQuicTransportStats> getStats();
 
 #### Events
 
-```
+```js
 attribute EventHandler onstatechange;
 attribute EventHandler onerror;
 attribute EventHandler onquicstream;
@@ -65,7 +65,7 @@ attribute EventHandler onquicstream;
 
 #### Attributes
 
-```
+```js
 readonly attribute RTCQuicTransport transport;
 readonly attribute RTCQuicStreamState state;
 readonly attribute unsigned long readBufferedAmount;
@@ -76,7 +76,7 @@ readonly attribute unsigned long maxWriteBufferedAmount;
 
 #### Methods
 
-```
+```js
 RTCQuicStreamReadResult readInto(Uint8Array data);
 void write(RTCQuicStreamWriteParameters data);
 void reset();
@@ -85,7 +85,7 @@ Promise<void> waitForReadable(unsigned long amount);
 ```
 
 #### Events
-```
+```js
 attribute EventHandler onstatechange;
 ```
 
