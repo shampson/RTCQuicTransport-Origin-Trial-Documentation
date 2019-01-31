@@ -1,6 +1,30 @@
 # RTCQuicTransport-Origin-Trial-Documentation
 Documentation and demos for developers using the RTCQuicTransport in Chrome's origin trial.
 
+The specifications provide further documentation, but have diverged in some ways. The most
+accurate documentation is below. The specifications can be found here:
+
+ * [RTCQuicTransport](https://w3c.github.io/webrtc-quic/)
+ * [RTCIceTransport](https://w3c.github.io/webrtc-ice/) 
+
+## Origin Trial Information
+
+1. Request a token for your origin.
+2. Add the token to your pages, there are two ways to provide this token on
+   any pages in your origin:
+     - Add an `origin-trial` `<meta>` tag to the head of any page. For example,
+       this may look something like:
+       `<meta http-equiv="origin-trial" content="TOKEN_GOES_HERE">`
+     - If you can configure your server, you can also provide the token on pages
+       using an `Origin-Trial` HTTP header. The resulting response header should
+       look something like: `Origin-Trial: TOKEN_GOES_HERE`
+
+### Origin trial links
+
+* [Origin Trial Overview](https://github.com/GoogleChrome/OriginTrials/blob/gh-pages/README.md)
+* [Origin Trial Developer Guide](https://github.com/GoogleChrome/OriginTrials/blob/gh-pages/developer-guide.md)
+* [Requesting for an Origin Trial Token](https://developers.chrome.com/origintrials/#/trials/active)
+
 ## API Glossary
 
 ### RTCIceTransport
