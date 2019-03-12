@@ -32,6 +32,11 @@ an example demo using the RTCQuicTransport. Example code is in the github repo.
 
 ## API Glossary
 
+Some example usage of the API can be found in the Web Platform Tests:
+* [webrtc-quic](https://github.com/web-platform-tests/wpt/tree/master/webrtc-quic)
+* [webrtc-ice](https://github.com/web-platform-tests/wpt/tree/master/webrtc) (see
+  files prefixed by "RTCIce.")
+
 ### RTCIceTransport
 
 #### Attributes:
