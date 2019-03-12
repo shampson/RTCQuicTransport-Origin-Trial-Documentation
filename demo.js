@@ -102,8 +102,10 @@ class Transport {
     statsButtonElement.onclick = async () => {
       if (statsListElement.style.display === "none") {
         statsListElement.style.display = "block";
+        statsButtonElement.value = "Hide";
       } else {
         statsListElement.style.display = "none";
+        statsButtonElement.value = "Show";
       }
     };
   }
