@@ -1,0 +1,137 @@
+body {
+  font-family: 'Source Code Pro', monospace;
+}
+
+#page-wrap {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+#stats-button {
+  background: transparent;
+  border-radius: 6px;
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 110%;
+  display: inline-block;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  text-decoration: none;
+  background-color: white;
+  color: black;
+  border: 2px solid #C0D9AF;
+}
+
+#stats-button:hover {
+  background-color: #C0D9AF;
+  color: white;
+}
+
+.button-column {
+  width: 50px;
+}
+
+.file-name {
+  word-wrap: break-word;
+  display: block;
+}
+
+.progress {
+  height: 1.5em;
+  background-color: #c9c9c9;
+  position: relative;
+}
+
+.progress:before {
+  content: attr(data-label);
+  font-size: 0.8em;
+  position: absolute;
+  text-align: center;
+  top: 5px;
+  left: 0;
+  right: 0;
+}
+
+.progress .value {
+  background-color: #7cc4ff;
+  display: inline-block;
+  height: 100%;
+}
+
+.receive-files-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.send-files-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.state-display {
+  align-content: space-between;
+}
+
+.state-display-title {
+  font-size: 125%;
+}
+
+.state-display-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row | column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0;
+}
+
+.state-display-list > li {
+  list-style-type:none;
+  display: inline-flex;
+  padding: 5px;
+  min-width: 75px;
+  text-align: center;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.state-display-list > .state-selected {
+  background-color: #C0D9AF;
+}
+
+.state-display-list > .state-to {
+  background-color: #D3D3D3;
+}
+
+.statItem {
+  list-style: none;
+}
+
+.two-column {
+  display: flex;
+  width: 100%;
+}
+
+.two-column > * {
+  width: 50%;
+}
+
+.two-column > :nth-child(1) {
+  border-right: 2px solid black;
+  padding-right: 25px;
+}
+
+.two-column > :nth-child(2) {
+  padding-left: 25px;
+}
+
+.quic-stats {
+  padding-left: 0;
+}
+
+tr {
+ border-bottom: 1pt solid black;
+}

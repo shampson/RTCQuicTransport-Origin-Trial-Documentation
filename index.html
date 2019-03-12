@@ -1,16 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="origin-trial" content="Ap8U8lNwS5REW8n8TuCeRuNfQcJSUKdLX9DFVe0odJeCVcqsmTXePf15ZDhNJbpaDSQ2m+KlyW4KEnZ/BL0q/wYAAABceyJvcmlnaW4iOiJodHRwczovL3NoYW1wc29uLmdpdGh1Yi5pbzo0NDMiLCJmZWF0dXJlIjoiUlRDUXVpY1RyYW5zcG9ydCIsImV4cGlyeSI6MTU1NTAyNTMzN30=">
-  <!-- TODO: Add css -->
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
   <title>RTCQuicTransport Demo Page</title>
-  <script src="demo.js" type="text/javascript"></script>
+  <script src="demo.js"></script>
 </head>
 <body onload="displayPage();">
-  <h1>RTCQuicTransport Demo Page</h1>
-  <section id="originTrialDisabled">
-    <h2>RTCQuicTransport is not enabled</h2>
+  <section id="originTrialDisabled" style="display:none">
+    <div id="page-wrap">
+    <h1>RTCQuicTransport is not enabled</h1>
+    <hr>
     <p>The RTCQuicTransport is not enabled for one of the following reasons:</p>
     <ul>
       <li>Not using the Chrome browser version 73 or above.</li>
@@ -18,9 +20,258 @@
       <li>Chrome binary needs to be started with experimental flags
           (--enable-experimental-web-platform-features)</li>
     </ul>
+    </div>
   </section>
-  <section id="originTrialEnabled">
-    <h2>RTCQuicTransport Demo!</h2>
-    <p>Coming soon :)</p>
+  <section id="originTrialEnabled" style="display:none">
+    <div id="page-wrap">
+
+    <h1>RTCQuicTransport file transfer demo!</h1>
+    <hr>
+
+    <p>
+      Demonstrates the RTCIceTransport and RTCQuicTransport APIs to transfer
+      a file locally. Select multiple files to send them across multiple
+      RTCQuicStreams. Click on the pause button on the receive side to observe
+      back pressure being applied send side.
+    </p>
+    <p>
+      Inspecting demo.js code shows examples of RTCQuicTransport API usage:
+      <ul>
+        <li>Connecting transports see: connectTransports() function.</li>
+        <li>Writing see: QuicFileSender.writeFileToStream().</li>
+        <li>Reading see: QuicFileReceiver.readFileFromStream().</li>
+      </ul>
+    </p>
+    <hr>
+
+    <div>
+      <h2>Choose files</h2>
+      <form>
+        <input type="file" id="file-input" multiple>
+      </form>
+    </div>
+    <hr>
+
+    <div class="two-column">
+      <div class="left-pane">
+        <h2>Local Connection</h2>
+
+        <div class="state-display">
+          <span class="state-display-title">
+            ICE gathering state
+          </span>
+          <ul class="ice-gathering-state state-display-list">
+            <li value="new" class="state-selected">
+              new
+            </li>
+            <li value="gathering" class="state-to">
+              gathering
+            </li>
+            <li value="complete" class="state-to">
+              complete
+            </li>
+          </ul>
+        </div>
+
+        <div class="state-display">
+          <span class="state-display-title">
+            ICE transport state
+          </span>
+          <ul class="ice-transport-state state-display-list">
+            <li value="new" class="state-selected">
+              new
+            </li>
+            <li value="checking" class="state-to">
+              checking
+            </li>
+            <li value="connected" class="state-to">
+              connected
+            </li>
+            <li value="completed" class="state-to">
+              completed
+            </li>
+            <li value="disconnected" class="state-to">
+              disconnected
+            </li>
+            <li value="failed" class="state-to">
+              failed
+            </li>
+            <li value="closed" class="state-to">
+              closed
+            </li>
+          </ul>
+        </div>
+
+        <div class="state-display">
+          <span class="state-display-title">
+            QUIC transport state
+          </span>
+          <ul class="quic-transport-state state-display-list">
+            <li value="new" class="state-selected">
+              new
+            </li>
+            <li value="connecting" class="state-to">
+              connecting
+            </li>
+            <li value="connected" class="state-to">
+              connected
+            </li>
+            <li value="closed" class="state-to">
+              closed
+            </li>
+            <li value="failed" class="state-to">
+              failed
+            </li>
+          </ul>
+        </div>
+
+        <div class="stats-display">
+          <h3>Stats</h3>
+          <input id="stats-button" type="button" value="Show stats!"/>
+          <ul class="quic-stats" style="display: none;">
+            <li id="not-connected-stat">Transport not yet connected</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Controls</h3>
+        </div>
+
+        <div>
+          <table class="send-files-table">
+            <template>
+              <tr class="send-file">
+                <td style="width: 250px; padding-right: 10px;">
+                  <span class="file-name"></span>
+                </td>
+                <td style="width: 150px">
+                  <div class="progress" data-label="some data">
+                    <span class="value" style="width: 0%;"></span>
+                  </div>
+                </td>
+                <td style="min-width: 50px; padding-left: 5px;">
+                  <span class="send-rate"></span>
+                </td>
+                <td style="width: 50px">
+                  <!-- Pause -->
+                  <button class="pause-unpause-button">&#x23F8;</button>
+                </td>
+              </tr>
+            </template>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="right-pane">
+        <h2>Remote Connection</h2>
+
+        <div class="state-display">
+          <span class="state-display-title">
+            ICE gathering state
+          </span>
+          <ul class="ice-gathering-state state-display-list">
+            <li value="new" class="state-selected">
+              new
+            </li>
+            <li value="gathering" class="state-to">
+              gathering
+            </li>
+            <li value="complete" class="state-to">
+              complete
+            </li>
+          </li>
+        </div>
+
+        <div class="state-display">
+          <span class="state-display-title">
+            ICE transport state
+          </span>
+          <ul class="ice-transport-state state-display-list">
+            <li value="new" class="state-selected">
+              new
+            </li>
+            <li value="checking" class="state-to">
+              checking
+            </li>
+            <li value="connected" class="state-to">
+              connected
+            </li>
+            <li value="completed" class="state-to">
+              completed
+            </li>
+            <li value="disconnected" class="state-to">
+              disconnected
+            </li>
+            <li value="failed" class="state-to">
+              failed
+            </li>
+            <li value="closed" class="state-to">
+              closed
+            </li>
+          </li>
+        </div>
+
+        <div class="state-display">
+          <span class="state-display-title">
+            QUIC transport state
+          </span>
+          <ul class="quic-transport-state state-display-list">
+            <li value="new" class="state-selected">
+              new
+            </li>
+            <li value="connecting" class="state-to">
+              connecting
+            </li>
+            <li value="connected" class="state-to">
+              connected
+            </li>
+            <li value="closed" class="state-to">
+              closed
+            </li>
+            <li value="failed" class="state-to">
+              failed
+            </li>
+          </li>
+        </div>
+
+        <div class="stats-display">
+          <h3>Stats</h3>
+          <input type="button" id="stats-button" value="Show stats!"/>
+          <ul class="quic-stats" style="display: none;">
+            <li id="not-connected-stat">Transport not yet connected</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>File Transfers</h3>
+        </div>
+
+        <div>
+          <table class="receive-files-table">
+            <template>
+              <tr>
+                <td style="width: 250px; padding-right: 10px;">
+                  <span class="file-name">unknown</span>
+                </td>
+                <td style="width: 150px;">
+                  <div class="progress" data-label="0 / ? bytes">
+                    <span class="value" style="width: 0%;"></span>
+                  </div>
+                </td>
+                <td style="min-width: 50px; padding-left: 5px;">
+                  <span class="send-rate"></span>
+                </td>
+                <td class="button-column">
+                  <!-- Pause -->
+                  <button class="pause-unpause-button">&#x23F8;</button>
+                </td>
+              </tr>
+            </template>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
   </section>
 </body>
