@@ -1,3 +1,6 @@
+let client;
+let server;
+
 /*
 Examples of RTCQuicTransport API usage:
  - Connecting transports see: connectTransports() function.
@@ -5,9 +8,9 @@ Examples of RTCQuicTransport API usage:
  - Reading see: QuicFileReceiver.readFileFromStream().
 */
 function setup() {
-  const client =
+  client =
       new Transport(document.querySelector('.left-pane'));
-  const server =
+  server =
       new Transport(document.querySelector('.right-pane'));
 
   connectTransports(client, server);

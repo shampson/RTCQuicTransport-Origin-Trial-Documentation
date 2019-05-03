@@ -73,6 +73,7 @@ attribute EventHandler onselectedcandidatepairchange;
 ```js
 readonly attribute RTCIceTransport transport;
 readonly attribute RTCQuicTransportState state;
+readonly attribute unsigned short? maxDatagramLength;
 ```
 
 #### Methods
@@ -85,6 +86,9 @@ void listen(BufferSource remote_key);
 void stop();
 RTCQuicStream createStream();
 Promise<RTCQuicTransportStats> getStats();
+Promise<void> readyToSendDatagram();
+void sendDatagram(BufferSource data);
+Promise<sequence<ArrayBuffer>> receiveDatagrams();
 ```
 
 #### Events
@@ -155,4 +159,44 @@ while (!readAllData) {
 // Close the stream. Writing a finish back to the remote side also will close
 // the stream.
 readStream.reset();
+```
+
+### Datagram Example
+
+#### Writing
+This is an example of when getting a message writing it as a datagram
+to the remote side. This could be something like game state or a chat message,
+for example.
+```js
+
+async function writeMessage(message, timeToWaitMs) {
+  const time1 = new Date();
+  // Will resolve immediately if the transport is not
+  // congestion control blocked.
+  await quicTransport.readyToSendDatagram();
+  const time2 = new Date();
+  if ((time2 - time1) < timeToWait) {
+    quicTransport.sendDatagram(message);
+    return true;
+  }
+  return false;
+}
+
+listener.onmessage = (message) => {
+  writeMessage(message, 2000 /* ms */);
+};
+```
+
+#### Reading
+An example of printing datagrams when they are received.
+```js
+function printReceivedDatagrams(datagramsPromise) {
+  datagramsPromise.then((datagrams) => {
+    for (let i = 0; i < datagrams.length; i++) {
+      console.log(datagrams);
+    }
+    printReceivedDatagrams(quictransport.receiveDatagrams());
+  });
+}
+printReceivedDatagrams(quicTransport.receiveDatagrams());
 ```
