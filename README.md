@@ -164,7 +164,7 @@ readStream.reset();
 ### Datagram Example
 
 #### Writing
-This is an example of when getting a message writing it as a datagram
+This is an example of when getting a message and writing it as a datagram
 to the remote side. This could be something like game state or a chat message,
 for example.
 ```js
@@ -182,6 +182,7 @@ async function writeMessage(message, timeToWaitMs) {
   return false;
 }
 
+// listener could be listening for game state change, etc.
 listener.onmessage = (message) => {
   writeMessage(message, 2000 /* ms */);
 };
