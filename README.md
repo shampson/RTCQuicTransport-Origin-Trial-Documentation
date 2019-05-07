@@ -194,10 +194,12 @@ An example of printing datagrams when they are received.
 function printReceivedDatagrams(datagramsPromise) {
   datagramsPromise.then((datagrams) => {
     for (let i = 0; i < datagrams.length; i++) {
-      console.log(datagrams);
+      console.log(datagrams[i]);
     }
     printReceivedDatagrams(quictransport.receiveDatagrams());
   });
 }
+
+// Let's print the received datagrams :).
 printReceivedDatagrams(quicTransport.receiveDatagrams());
 ```
