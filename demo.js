@@ -30,7 +30,9 @@ function connectTransports(client, server) {
       client.ice.addRemoteCandidate(candidate);
     }
   };
-  server.ice.gather({});
+  server.ice.gather({
+    iceServers: [{urls: ["stun:stun.l.google.com:19302"]}]
+  });
   server.ice.start(client.ice.getLocalParameters());
   server.quic.listen(client.quic.getKey());
 
@@ -39,7 +41,9 @@ function connectTransports(client, server) {
       server.ice.addRemoteCandidate(candidate);
     }
   };
-  client.ice.gather({});
+  client.ice.gather({
+    iceServers: [{urls: ["stun:stun.l.google.com:19302"]}]
+  });
   client.ice.start(server.ice.getLocalParameters());
   client.quic.connect();
 }
