@@ -30,6 +30,12 @@ an example demo using the RTCQuicTransport. Example code is in the github repo.
 * [Origin Trial Developer Guide](https://github.com/GoogleChrome/OriginTrials/blob/gh-pages/developer-guide.md)
 * [Requesting for an Origin Trial Token](https://developers.chrome.com/origintrials/#/trials/active)
 
+## Experimenting Locally
+You can also experiment locally with the following two options.
+1. Running Chrome locally with "--enable-experimental-web-platform-features"
+or
+2. Navigating to `chrome://flags` and enabling "Experimental Web Platform features"
+
 ## API Glossary
 
 Some example usage of the API can be found in the Web Platform Tests:
