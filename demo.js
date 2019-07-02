@@ -25,14 +25,16 @@ function setup() {
 }
 
 function connectTransports(client, server) {
+  const iceGatherOptions = {
+    iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+  };
+ 
   server.ice.onicecandidate = ({candidate}) => {
     if (candidate) {
       client.ice.addRemoteCandidate(candidate);
     }
   };
-  server.ice.gather({
-    iceServers: [{urls: ["stun:stun.l.google.com:19302"]}]
-  });
+  server.ice.gather(iceGatherOptions);
   server.ice.start(client.ice.getLocalParameters());
   server.quic.listen(client.quic.getKey());
 
@@ -41,9 +43,7 @@ function connectTransports(client, server) {
       server.ice.addRemoteCandidate(candidate);
     }
   };
-  client.ice.gather({
-    iceServers: [{urls: ["stun:stun.l.google.com:19302"]}]
-  });
+  client.ice.gather(iceGatherOptions);
   client.ice.start(server.ice.getLocalParameters());
   client.quic.connect();
 }
